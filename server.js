@@ -1,12 +1,9 @@
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-process.loadEnvFile(path.join(__dirname, '.env'));
-
 import { listTodos, createTodo, updateTodo, deleteTodo, listTags } from './db.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 app.use(express.json());
