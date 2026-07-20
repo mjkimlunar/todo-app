@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Todo</h1>
+
+  <form id="todo-form">
+    <input type="text" id="title" placeholder="할 일 제목" required>
+    <textarea id="description" placeholder="설명 (선택)"></textarea>
+    <div class="form-row">
+      <label>마감일 <input type="date" id="due_date"></label>
+      <label>우선순위
+        <select id="priority">
+          <option value="low">낮음</option>
+          <option value="medium" selected>보통</option>
+          <option value="high">높음</option>
+        </select>
+      </label>
+    </div>
+    <input type="text" id="tags" placeholder="태그 (쉼표로 구분, 예: 업무, 공부)">
+    <button type="submit">추가</button>
+  </form>
+
+  <div class="filters">
+    <input type="search" id="search" placeholder="제목 검색">
+    <select id="tag-filter">
+      <option value="">전체 태그</option>
+    </select>
+    <label><input type="checkbox" id="today-only"> 오늘 할 일만 보기</label>
+  </div>
+
+  <ul id="todo-list"></ul>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

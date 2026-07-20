@@ -1,0 +1,174 @@
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  background: #f4f4f2;
+  color: #222;
+  margin: 0;
+  padding: 24px;
+}
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+form#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+input, select, textarea, button {
+  font-size: 14px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 48px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+button[type="submit"] {
+  background: #2f6fed;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover {
+  background: #2558c0;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.filters label {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+ul#todo-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.todo-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.todo-body {
+  flex: 1;
+}
+
+.todo-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.todo-desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.todo-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.priority-high { background: #fde2e1; color: #a11d1d; }
+.priority-medium { background: #fff1cc; color: #8a5a00; }
+.priority-low { background: #e4f3e6; color: #226b32; }
+
+.due-date {
+  color: #555;
+}
+
+.due-date.overdue {
+  color: #c0281f;
+  font-weight: 600;
+}
+
+.tag {
+  background: #eef1fb;
+  color: #33468a;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.delete-btn {
+  border: none;
+  background: transparent;
+  color: #999;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.delete-btn:hover {
+  color: #c0281f;
+}
+
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 24px;
+}
