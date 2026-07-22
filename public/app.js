@@ -177,7 +177,7 @@ function escapeHtml(str) {
 
 function renderTodos(todos) {
   if (!todos.length) {
-    listEl.innerHTML = '<li class="empty">할 일이 없어요.</li>';
+    listEl.innerHTML = '<li class="empty">✓ 할 일이 없어요. 오늘은 여백이네요.</li>';
     return;
   }
 
