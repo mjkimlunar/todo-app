@@ -19,6 +19,8 @@ Auth를 쓰고, 모임(household) 생성자가 그 모임의 admin이 되어 이
 
 `cli.js`로 할 일 데이터를 조회할 수 있다. 반드시 `--env-file=.env`를 붙여서
 실행해야 한다 (Supabase 접속 키를 이 방식으로 로드하도록 구성되어 있음).
+`.env`에 조회할 모임의 `HOUSEHOLD_ID`(숫자 id, 초대 코드가 아님)가 있어야
+동작한다 — `mcp-server.js`도 동일하게 이 값을 쓴다.
 
 ```bash
 node --env-file=.env cli.js list      # 할 일 목록 (완료 여부, 마감일순 정렬)

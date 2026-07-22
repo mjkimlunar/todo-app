@@ -4,6 +4,17 @@ import { computeSummary } from './stats.js';
 const [, , command, ...flags] = process.argv;
 const hasFlag = (name) => flags.includes(name);
 
+function requireHouseholdId() {
+  const householdId = Number(process.env.HOUSEHOLD_ID);
+  if (!process.env.HOUSEHOLD_ID || !Number.isInteger(householdId)) {
+    throw new Error(
+      'HOUSEHOLD_ID 환경변수가 필요합니다. .env에 조회할 모임의 숫자 id를 설정하세요 ' +
+      '(Supabase SQL Editor에서 `select id, invite_code from households;`로 확인 가능).',
+    );
+  }
+  return householdId;
+}
+
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
@@ -20,7 +31,8 @@ function formatLine(todo) {
 }
 
 async function runList() {
-  let todos = await listTodos({});
+  const householdId = requireHouseholdId();
+  let todos = await listTodos({ householdId });
 
   if (hasFlag('--overdue-completed')) {
     const today = todayISO();
@@ -40,7 +52,8 @@ async function runList() {
 }
 
 async function runSummary() {
-  const todos = await listTodos({});
+  const householdId = requireHouseholdId();
+  const todos = await listTodos({ householdId });
   const { total, completed, overdue, dueToday, byPriority, byTag } = computeSummary(todos, todayISO());
 
   console.log(`전체 ${total}개 / 완료 ${completed}개 / 미완료 ${total - completed}개`);
