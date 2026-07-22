@@ -1,6 +1,7 @@
 import { listTodos } from './db.js';
 
-const [, , command] = process.argv;
+const [, , command, ...flags] = process.argv;
+const hasFlag = (name) => flags.includes(name);
 
 function todayISO() {
   return new Date().toISOString().slice(0, 10);
@@ -18,7 +19,18 @@ function formatLine(todo) {
 }
 
 async function runList() {
-  const todos = await listTodos({});
+  let todos = await listTodos({});
+
+  if (hasFlag('--overdue-completed')) {
+    const today = todayISO();
+    todos = todos.filter((t) => t.is_completed && t.due_date && t.due_date < today);
+  }
+
+  if (hasFlag('--json')) {
+    console.log(JSON.stringify(todos, null, 2));
+    return;
+  }
+
   if (!todos.length) {
     console.log('할 일이 없습니다.');
     return;
@@ -58,7 +70,7 @@ async function main() {
   } else if (command === 'summary') {
     await runSummary();
   } else {
-    console.log('사용법: node --env-file=.env cli.js <list|summary>');
+    console.log('사용법: node --env-file=.env cli.js <list|summary> [--overdue-completed] [--json]');
     process.exitCode = 1;
   }
 }
