@@ -23,10 +23,27 @@ create table if not exists todo_tags (
   primary key (todo_id, tag_id)
 );
 
--- 조회 성능용 인덱스: "오늘 할 일만 보기", 우선순위 정렬
+-- 가족(household) 단위 공유: 초대 코드 하나로 같은 목록을 보는 그룹
+create table if not exists households (
+  id           bigint generated always as identity primary key,
+  invite_code  text not null unique,
+  name         text,
+  created_at   timestamptz not null default now()
+);
+
+alter table todos add column if not exists household_id bigint references households(id) on delete cascade;
+alter table tags  add column if not exists household_id bigint references households(id) on delete cascade;
+
+-- 태그는 이제 가족 단위로 유니크해야 한다 (가족마다 같은 이름의 태그를 따로 쓸 수 있게)
+alter table tags drop constraint if exists tags_name_key;
+create unique index if not exists idx_tags_household_name on tags(household_id, name);
+
+-- 조회 성능용 인덱스: "오늘 할 일만 보기", 우선순위 정렬, 가족별 조회
 create index if not exists idx_todos_due_date on todos(due_date);
 create index if not exists idx_todos_priority on todos(priority);
 create index if not exists idx_todo_tags_tag_id on todo_tags(tag_id);
+create index if not exists idx_todos_household on todos(household_id);
+create index if not exists idx_tags_household on tags(household_id);
 
 -- 수정 시 updated_at 자동 갱신 (Postgres 표준 방식: BEFORE UPDATE에서 NEW를 직접 수정)
 create or replace function set_updated_at()
@@ -54,3 +71,4 @@ execute function set_updated_at();
 alter table todos enable row level security;
 alter table tags enable row level security;
 alter table todo_tags enable row level security;
+alter table households enable row level security;

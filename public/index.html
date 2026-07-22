@@ -10,6 +10,24 @@
 <main>
   <h1>Todo</h1>
 
+  <section id="gate">
+    <p>가족 코드로 함께 쓰는 할 일 목록이에요. 새로 만들거나, 받은 코드로 참여하세요.</p>
+    <div class="gate-row">
+      <button type="button" id="create-household-btn">새 가족 만들기</button>
+    </div>
+    <div class="gate-row">
+      <input type="text" id="join-code-input" placeholder="가족 코드 입력 (예: AB12CD)">
+      <button type="button" id="join-household-btn">참여하기</button>
+    </div>
+    <p id="gate-error" class="gate-error"></p>
+  </section>
+
+  <div id="app" style="display:none">
+    <div class="household-bar">
+      <span>가족 코드: <strong id="household-code"></strong></span>
+      <button type="button" id="leave-household-btn">다른 가족으로 전환</button>
+    </div>
+
   <form id="todo-form">
     <input type="text" id="title" placeholder="할 일 제목" required>
     <textarea id="description" placeholder="설명 (선택)"></textarea>
@@ -36,6 +54,7 @@
   </div>
 
   <ul id="todo-list"></ul>
+  </div>
 </main>
 <script src="app.js"></script>
 </body>

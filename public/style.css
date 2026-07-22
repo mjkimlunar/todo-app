@@ -18,6 +18,46 @@ h1 {
   font-weight: 600;
 }
 
+section#gate {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.gate-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.gate-row input {
+  flex: 1;
+}
+
+.gate-error {
+  color: #c0281f;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+
+.household-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 14px;
+}
+
+.household-bar button {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: none;
+  cursor: pointer;
+}
+
 form#todo-form {
   display: flex;
   flex-direction: column;
