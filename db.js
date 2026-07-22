@@ -189,6 +189,16 @@ export async function createHousehold(name) {
   throw new Error('초대 코드 생성에 반복 실패했습니다. 다시 시도해주세요.');
 }
 
+export async function getHouseholdById(id) {
+  const { data, error } = await supabase
+    .from('households')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
 export async function findHouseholdByCode(inviteCode) {
   if (!inviteCode || !inviteCode.trim()) {
     throw new Error('invite_code is required');
@@ -200,4 +210,40 @@ export async function findHouseholdByCode(inviteCode) {
     .maybeSingle();
   if (error) throw error;
   return data;
+}
+
+export async function createHouseholdForUser(userId, name) {
+  const household = await createHousehold(name);
+  const { error } = await supabase
+    .from('household_members')
+    .insert({ household_id: household.id, user_id: userId, role: 'admin' });
+  if (error) throw error;
+  return { ...household, role: 'admin' };
+}
+
+export async function joinHouseholdAsMember(userId, inviteCode) {
+  const household = await findHouseholdByCode(inviteCode);
+  if (!household) return null;
+
+  const { error } = await supabase
+    .from('household_members')
+    .upsert(
+      { household_id: household.id, user_id: userId, role: 'member' },
+      { onConflict: 'household_id,user_id', ignoreDuplicates: true },
+    );
+  if (error) throw error;
+
+  const role = await getMembership(userId, household.id);
+  return { ...household, role };
+}
+
+export async function getMembership(userId, householdId) {
+  const { data, error } = await supabase
+    .from('household_members')
+    .select('role')
+    .eq('user_id', userId)
+    .eq('household_id', householdId)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? data.role : null;
 }

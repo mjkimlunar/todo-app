@@ -5,8 +5,15 @@
 ## 프로젝트 개요
 
 Todo 앱. Express 서버(`server.js`)가 `public/`을 정적 서빙하면서 `/api/*` REST
-엔드포인트를 제공하고, 데이터는 Supabase(Postgres)에 저장한다. 자세한 구조는
-[README.md](./README.md) 참고.
+엔드포인트를 제공하고, 데이터는 Supabase(Postgres)에 저장한다. 로그인은 Supabase
+Auth를 쓰고, 모임(household) 생성자가 그 모임의 admin이 되어 이메일 초대(Resend,
+`email.js`)를 보낼 수 있다. 자세한 구조는 [README.md](./README.md) 참고.
+
+- 프론트엔드는 회원가입/로그인을 포함해 Supabase에 절대 직접 접근하지 않는다 —
+  Express가 항상 중간에서 `supabase.auth.*`를 대신 호출한다.
+- `/api/todos`, `/api/tags` 등 household 스코프 엔드포인트는 `requireUser` +
+  `requireHousehold` 순서로 미들웨어를 반드시 거쳐야 한다 (로그인 + 소속 확인).
+  관리자 전용 라우트는 그 뒤에 `requireAdmin`을 추가한다.
 
 ## CLI
 

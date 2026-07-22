@@ -72,3 +72,18 @@ alter table todos enable row level security;
 alter table tags enable row level security;
 alter table todo_tags enable row level security;
 alter table households enable row level security;
+
+-- 모임(household) 구성원 + 역할. household를 만든 사람이 admin이 되고,
+-- 초대 코드로 참여한 사람은 member가 된다. 회원가입/로그인은 Supabase Auth를
+-- 그대로 사용하므로 user_id는 auth.users를 참조한다.
+create table if not exists household_members (
+  household_id bigint not null references households(id) on delete cascade,
+  user_id      uuid not null references auth.users(id) on delete cascade,
+  role         text not null default 'member' check (role in ('admin', 'member')),
+  joined_at    timestamptz not null default now(),
+  primary key (household_id, user_id)
+);
+create index if not exists idx_household_members_user on household_members(user_id);
+
+-- 이 테이블도 정책 없이 RLS만 활성화한다 (서버의 service_role 키만 접근 가능).
+alter table household_members enable row level security;

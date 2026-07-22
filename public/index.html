@@ -10,13 +10,46 @@
 <main>
   <h1>Todo</h1>
 
-  <section id="gate">
-    <p>가족 코드로 함께 쓰는 할 일 목록이에요. 새로 만들거나, 받은 코드로 참여하세요.</p>
+  <section id="auth-gate">
+    <div id="signup-form">
+      <p>이메일과 비밀번호로 가입하세요.</p>
+      <div class="gate-row">
+        <input type="email" id="signup-email" placeholder="이메일">
+      </div>
+      <div class="gate-row">
+        <input type="password" id="signup-password" placeholder="비밀번호 (6자 이상)">
+      </div>
+      <div class="gate-row">
+        <button type="button" id="signup-btn">가입하기</button>
+      </div>
+      <p class="gate-switch">이미 계정이 있나요? <a href="#" id="show-login-link">로그인</a></p>
+      <p id="signup-message" class="gate-message"></p>
+    </div>
+
+    <div id="login-form" style="display:none">
+      <p>이메일과 비밀번호로 로그인하세요.</p>
+      <div class="gate-row">
+        <input type="email" id="login-email" placeholder="이메일">
+      </div>
+      <div class="gate-row">
+        <input type="password" id="login-password" placeholder="비밀번호">
+      </div>
+      <div class="gate-row">
+        <button type="button" id="login-btn">로그인</button>
+      </div>
+      <p class="gate-switch">계정이 없나요? <a href="#" id="show-signup-link">가입하기</a></p>
+    </div>
+
+    <p id="auth-error" class="gate-error"></p>
+  </section>
+
+  <section id="gate" style="display:none">
+    <p>모임 코드로 함께 쓰는 할 일 목록이에요. 새로 만들거나, 받은 코드로 참여하세요.</p>
     <div class="gate-row">
-      <button type="button" id="create-household-btn">새 가족 만들기</button>
+      <button type="button" id="create-household-btn">새 모임 만들기</button>
     </div>
     <div class="gate-row">
-      <input type="text" id="join-code-input" placeholder="가족 코드 입력 (예: AB12CD)">
+      <input type="text" id="join-code-input" placeholder="모임 코드 입력 (예: AB12CD)">
       <button type="button" id="join-household-btn">참여하기</button>
     </div>
     <p id="gate-error" class="gate-error"></p>
@@ -24,9 +57,21 @@
 
   <div id="app" style="display:none">
     <div class="household-bar">
-      <span>가족 코드: <strong id="household-code"></strong></span>
-      <button type="button" id="leave-household-btn">다른 가족으로 전환</button>
+      <span>모임 코드: <strong id="household-code"></strong></span>
+      <span>
+        <button type="button" id="leave-household-btn">다른 모임으로 전환</button>
+        <button type="button" id="logout-btn">로그아웃</button>
+      </span>
     </div>
+
+    <section id="admin-panel" style="display:none">
+      <p>관리자예요. 이메일로 초대할 수 있어요.</p>
+      <div class="gate-row">
+        <input type="email" id="invite-email-input" placeholder="초대할 이메일">
+        <button type="button" id="invite-btn">초대 이메일 보내기</button>
+      </div>
+      <p id="invite-message" class="gate-message"></p>
+    </section>
 
   <form id="todo-form">
     <input type="text" id="title" placeholder="할 일 제목" required>
