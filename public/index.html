@@ -17,7 +17,12 @@
   </header>
 
   <section id="auth-gate">
-    <div id="signup-form">
+    <div class="gate-row">
+      <button type="button" id="demo-btn">체험하기 (테스트 계정으로 둘러보기)</button>
+    </div>
+    <p class="gate-switch" style="margin-bottom: 16px">가입 없이 바로 기능을 둘러보실 수 있어요.</p>
+
+    <div id="signup-form" style="display:none">
       <p>이메일과 비밀번호로 가입하세요.</p>
       <div class="gate-row">
         <input type="email" id="signup-email" placeholder="이메일">
@@ -32,7 +37,7 @@
       <p id="signup-message" class="gate-message"></p>
     </div>
 
-    <div id="login-form" style="display:none">
+    <div id="login-form">
       <p>이메일과 비밀번호로 로그인하세요.</p>
       <div class="gate-row">
         <input type="email" id="login-email" placeholder="이메일">

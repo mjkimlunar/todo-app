@@ -1,3 +1,8 @@
+const DEMO_EMAIL = 'demo@example.com';
+const DEMO_PASSWORD = 'DemoPass123!';
+const DEMO_INVITE_CODE = 'DEMO01';
+
+const demoBtn = document.getElementById('demo-btn');
 const authGateEl = document.getElementById('auth-gate');
 const signupFormEl = document.getElementById('signup-form');
 const loginFormEl = document.getElementById('login-form');
@@ -426,6 +431,34 @@ loginBtn.addEventListener('click', async () => {
   } else {
     showGate();
   }
+});
+
+demoBtn.addEventListener('click', async () => {
+  authErrorEl.textContent = '';
+
+  const loginRes = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: DEMO_EMAIL, password: DEMO_PASSWORD }),
+  });
+  const loginBody = await loginRes.json().catch(() => ({}));
+  if (!loginRes.ok) {
+    authErrorEl.textContent = '체험 계정 로그인에 실패했어요. 잠시 후 다시 시도해주세요.';
+    return;
+  }
+  saveAuth({ access_token: loginBody.access_token, refresh_token: loginBody.refresh_token, user: loginBody.user });
+
+  const joinRes = await fetch('/api/households/join', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${auth.access_token}` },
+    body: JSON.stringify({ invite_code: DEMO_INVITE_CODE }),
+  });
+  if (!joinRes.ok) {
+    authErrorEl.textContent = '체험 모임 참여에 실패했어요. 잠시 후 다시 시도해주세요.';
+    return;
+  }
+  saveHousehold(await joinRes.json());
+  enterApp();
 });
 
 auth = loadAuth();
