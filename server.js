@@ -92,6 +92,41 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+app.post('/api/auth/forgot-password', async (req, res) => {
+  try {
+    const email = req.body?.email?.trim();
+    if (!email) {
+      return res.status(400).json({ error: 'email이 필요합니다' });
+    }
+    const appUrl = process.env.APP_URL || `${req.protocol}://${req.get('host')}`;
+    const { error } = await supabaseAuth.auth.resetPasswordForEmail(email, {
+      redirectTo: `${appUrl}/reset-password.html`,
+    });
+    if (error) return res.status(400).json({ error: error.message });
+    res.status(204).end();
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  try {
+    const { access_token, password } = req.body ?? {};
+    if (!access_token || !password) {
+      return res.status(400).json({ error: 'access_token과 password가 필요합니다' });
+    }
+    const { data, error } = await supabaseAuth.auth.getUser(access_token);
+    if (error || !data?.user) {
+      return res.status(401).json({ error: '유효하지 않거나 만료된 링크입니다. 다시 요청해주세요' });
+    }
+    const { error: updateError } = await supabaseAuth.auth.admin.updateUserById(data.user.id, { password });
+    if (updateError) return res.status(400).json({ error: updateError.message });
+    res.status(204).end();
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 app.post('/api/auth/refresh', async (req, res) => {
   try {
     const { refresh_token } = req.body ?? {};

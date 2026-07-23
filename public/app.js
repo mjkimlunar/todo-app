@@ -13,6 +13,13 @@ const showLoginLink = document.getElementById('show-login-link');
 const showSignupLink = document.getElementById('show-signup-link');
 const logoutBtn = document.getElementById('logout-btn');
 
+const forgotFormEl = document.getElementById('forgot-form');
+const showForgotLink = document.getElementById('show-forgot-link');
+const showLoginFromForgotLink = document.getElementById('show-login-from-forgot-link');
+const forgotEmailInput = document.getElementById('forgot-email');
+const forgotBtn = document.getElementById('forgot-btn');
+const forgotMessageEl = document.getElementById('forgot-message');
+
 const gateEl = document.getElementById('gate');
 const appEl = document.getElementById('app');
 const gateErrorEl = document.getElementById('gate-error');
@@ -330,6 +337,7 @@ showLoginLink.addEventListener('click', (e) => {
   e.preventDefault();
   authErrorEl.textContent = '';
   signupFormEl.style.display = 'none';
+  forgotFormEl.style.display = 'none';
   loginFormEl.style.display = '';
 });
 
@@ -337,7 +345,43 @@ showSignupLink.addEventListener('click', (e) => {
   e.preventDefault();
   authErrorEl.textContent = '';
   loginFormEl.style.display = 'none';
+  forgotFormEl.style.display = 'none';
   signupFormEl.style.display = '';
+});
+
+showForgotLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  authErrorEl.textContent = '';
+  forgotMessageEl.textContent = '';
+  loginFormEl.style.display = 'none';
+  signupFormEl.style.display = 'none';
+  forgotFormEl.style.display = '';
+});
+
+showLoginFromForgotLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  forgotFormEl.style.display = 'none';
+  loginFormEl.style.display = '';
+});
+
+forgotBtn.addEventListener('click', async () => {
+  forgotMessageEl.textContent = '';
+  const email = forgotEmailInput.value.trim();
+  if (!email) {
+    forgotMessageEl.textContent = '이메일을 입력해주세요.';
+    return;
+  }
+  const res = await fetch('/api/auth/forgot-password', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    forgotMessageEl.textContent = body.error || '요청에 실패했어요. 다시 시도해주세요.';
+    return;
+  }
+  forgotMessageEl.textContent = '이메일을 보냈어요. 받은 편지함에서 링크를 확인해주세요.';
 });
 
 signupBtn.addEventListener('click', async () => {

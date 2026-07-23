@@ -44,6 +44,19 @@
         <button type="button" id="login-btn">로그인</button>
       </div>
       <p class="gate-switch">계정이 없나요? <a href="#" id="show-signup-link">가입하기</a></p>
+      <p class="gate-switch"><a href="#" id="show-forgot-link">비밀번호를 잊으셨나요?</a></p>
+    </div>
+
+    <div id="forgot-form" style="display:none">
+      <p>가입한 이메일로 비밀번호 재설정 링크를 보내드려요.</p>
+      <div class="gate-row">
+        <input type="email" id="forgot-email" placeholder="이메일">
+      </div>
+      <div class="gate-row">
+        <button type="button" id="forgot-btn">재설정 이메일 보내기</button>
+      </div>
+      <p class="gate-switch"><a href="#" id="show-login-from-forgot-link">로그인으로 돌아가기</a></p>
+      <p id="forgot-message" class="gate-message"></p>
     </div>
 
     <p id="auth-error" class="gate-error"></p>
