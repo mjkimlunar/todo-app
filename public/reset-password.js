@@ -4,6 +4,7 @@ const newPasswordConfirmInput = document.getElementById('new-password-confirm');
 const resetBtn = document.getElementById('reset-btn');
 const resetMessageEl = document.getElementById('reset-message');
 const resetErrorEl = document.getElementById('reset-error');
+const backToLoginEl = document.getElementById('back-to-login');
 
 function getAccessTokenFromHash() {
   const hash = window.location.hash.startsWith('#') ? window.location.hash.slice(1) : window.location.hash;
@@ -48,4 +49,5 @@ resetBtn.addEventListener('click', async () => {
 
   formEl.style.display = 'none';
   resetMessageEl.textContent = '비밀번호가 변경됐어요. 이제 로그인 화면에서 새 비밀번호로 로그인해주세요.';
+  backToLoginEl.style.display = '';
 });
