@@ -136,6 +136,23 @@ section#admin-panel p {
   display: none;
 }
 
+.gate-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 0;
+  color: var(--ink-faint);
+  font-size: 12px;
+}
+
+.gate-divider::before,
+.gate-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
 .household-bar {
   display: flex;
   justify-content: space-between;
